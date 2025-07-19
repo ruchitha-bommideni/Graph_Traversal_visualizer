@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Traversal Visualizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-image: linear-gradient(15deg, #13547a 0%, #80d0c7 100%);
+            color: white;
+            /* Set text color for body */
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 50px;
+            text-decoration: underline;
+        }
+
+        label {
+            margin-right: 10px;
+            font-size: 23px;
+            color: #13547a;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 70px;
+            height: 25px;
+            margin-right: 10px;
+        }
+
+        button {
+            margin-right: 15px;
+            padding: 9px 10px;
+            margin-top: 10px;
+            font-size: 18px;
+            border: none;
+            background-color: #13547a;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 20px;
+        }
+
+        button:hover {
+            background-color: #5bd4e9;
+            color: #13547a;
+        }
+
+        .two {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        #statusLabel {
+            text-align: center;
+            font-weight: bold;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border: 1px solid black;
+            background-color: white;
+        }
+
+        #adjacencyList {
+            margin: 20px auto;
+            padding: 10px;
+            width: 45%;
+            border: 1px solid black;
+            background-color: #f9f9f9;
+            color: #121a27;
+            height: 10;
+            font-weight: bold;
+            max-height: 150px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .one {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        img {
+            width: 300px;
+            height: 350px;
+            margin: 50px;
+            border-radius: 25px;
+            border-style: outset;
+            border-color: #121a27;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Graph Traversal Visualizer</h1>
+    <div style="text-align: center;">
+        <label for="numNodes">Number of Nodes:</label>
+        <input type="number" id="numNodes" name="numNodes" min="1" required />
+        <label for="numEdges"> Number of Edges:</label>
+        <input type="number" id="numEdges" name="numEdges" min="0" required />
+        <br>
+        <div class="two">
+            <button id="generateButton" onclick="generateGraph()">Generate Graph</button>
+            <button id="clearButton" onclick="clearGraph()">Clear Graph</button>
+            <button id="bfsButton" onclick="bfsTraversal()">BFS</button>
+            <button id="dfsButton" onclick="dfsTraversal()">DFS</button>
+            <button id="showBFSTreeButton" onclick="displayBFSTree()">Show BFS Tree</button>
+            <button id="showDFSTreeButton" onclick="displayDFSTree()">Show DFS Tree</button>
+
+        </div>
+    </div>
+    <p id="statusLabel">Generate a graph!</p>
+    <div class="one">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvW3ponHr4DSyuYZPbsNVD152cUHmtCtenpw&s" alt="">
+        <canvas id="graphCanvas" width="700" height="500"></canvas>
+        <img src="https://www.shutterstock.com/image-vector/dfs-letter-logo-design-on-600nw-2441864735.jpg" alt="">
+    </div>
+    <br>
+    <h1>Adjacency List</h1>
+    <div id="adjacencyList"></div>
+    <h1>BFS traversal</h1>
+    <canvas id="bfsTreeCanvas" width="700" height="20"></canvas><br>
+    <h1>DFS traversal</h1>
+    <canvas id="dfsTreeCanvas" width="700" height="20"></canvas><br>
+
+    <script>
+        var graph = {};
+        var visited = new Set();
+        var canvas = document.getElementById("graphCanvas");
+        var bfsTreeCanvas = document.getElementById("bfsTreeCanvas");
+        var dfsTreeCanvas = document.getElementById("dfsTreeCanvas");
+        var ctx = canvas.getContext("2d");
+        var bfsCtx = bfsTreeCanvas.getContext("2d");
+        var dfsCtx = dfsTreeCanvas.getContext("2d");
+        var adjacencyListDiv = document.getElementById("adjacencyList");
+        var bfsTree = {};
+        var dfsTree = {};
+
+        function generateGraph() {
+
+            var numNodes = parseInt(document.getElementById("numNodes").value);
+            var numEdges = parseInt(document.getElementById("numEdges").value);
+
+            if (isNaN(numNodes) || numNodes < 1) {
+                document.getElementById("statusLabel").innerText = "Invalid number of nodes";
+                return;
+            }
+            if (isNaN(numEdges) || numEdges < 0) {
+                document.getElementById("statusLabel").innerText = "Invalid number of edges";
+                return;
+            }
+            if (numNodes == 1 && numEdges == 1) {
+                document.getElementById("statusLabel").innerText = "Graph cannot be generated";
+                return;
+            }
+
+
+            graph = {};
+            visited.clear();
+            bfsTree = {};
+            dfsTree = {};
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            bfsCtx.clearRect(0, 0, bfsTreeCanvas.width, bfsTreeCanvas.height);
+            dfsCtx.clearRect(0, 0, dfsTreeCanvas.width, dfsTreeCanvas.height);
+
+            for (var i = 0; i < numNodes; i++) {
+                var x = Math.floor(Math.random() * (canvas.width - 50)) + 25;
+                var y = Math.floor(Math.random() * (canvas.height - 50)) + 25;
+                graph[i] = { x: x, y: y, neighbors: [] };
+                drawNode(i, "#13547a", ctx);
+            }
+
+            var addedEdges = new Set();
+            for (var j = 0; j < numEdges; j++) {
+                var start, end;
+                do {
+                    start = Math.floor(Math.random() * numNodes);
+                    end = Math.floor(Math.random() * numNodes);
+                } while (start === end || addedEdges.has(`${start}-${end}`) || addedEdges.has(`${end}-${start}`));
+
+                graph[start].neighbors.push(end);
+                graph[end].neighbors.push(start);
+                addedEdges.add(`${start}-${end}`);
+                drawEdge(start, end, "black", ctx);
+            }
+
+            document.getElementById("statusLabel").innerText = "Graph Generated";
+            document.getElementById("showBFSTreeButton").disabled = true;
+            document.getElementById("showDFSTreeButton").disabled = true;
+
+        }
+
+        function clearGraph() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            adjacencyListDiv.innerHTML = "";
+            bfsTree = {};
+            dfsTree = {};
+            bfsCtx.clearRect(0, 0, bfsTreeCanvas.width, bfsTreeCanvas.height);
+            dfsCtx.clearRect(0, 0, dfsTreeCanvas.width, dfsTreeCanvas.height);
+            bfsTreeCanvas.width = 700;
+            bfsTreeCanvas.height = 20;
+            dfsTreeCanvas.width = 700;
+            dfsTreeCanvas.height = 20;
+            document.getElementById("numNodes").value = "";
+            document.getElementById("numEdges").value = "";
+            document.getElementById("statusLabel").innerText = "Graph Cleared";
+            document.getElementById('generateButton').disabled = false;
+        }
+
+        function bfsTraversal() {
+
+            document.getElementById('dfsButton').disabled = true;
+            document.getElementById('showBFSTreeButton').disabled = true;
+            document.getElementById('showDFSTreeButton').disabled = true;
+            document.getElementById('generateButton').disabled = true;
+            document.getElementById('clearButton').disabled = true;
+            document.getElementById("statusLabel").innerText = "BFS Traversal going on...";
+
+            var numNodes = Object.keys(graph).length;
+            visited.clear();
+            bfsTree = {};
+            for (var node in graph) {
+                if (!visited.has(parseInt(node))) {
+                    bfsAnimation([parseInt(node)], -1);
+                    break;
+                }
+            }
+        }
+
+        function bfsAnimation(queue, parent) {
+            if (queue.length === 0) {
+                document.getElementById("statusLabel").innerText = "BFS Traversal Completed";
+                document.getElementById('clearButton').disabled = false;
+                updateAdjacencyList();
+
+                document.getElementById('showBFSTreeButton').disabled = false;
+                document.getElementById('dfsButton').disabled = false;
+                buildBFSTree();
+                removeUnconnectedEdges(bfsTree);
+                return;
+            }
+
+            var currentNode = queue.shift();
+            visited.add(currentNode);
+            if (parent !== -1) {
+                if (!bfsTree[parent]) {
+                    bfsTree[parent] = [];
+                }
+                bfsTree[parent].push(currentNode);
+            }
+            drawNode(currentNode, "maroon", ctx);
+            setTimeout(function () {
+                graph[currentNode].neighbors.forEach(function (neighbor) {
+                    if (!visited.has(neighbor)) {
+                        queue.push(neighbor);
+                        drawEdge(currentNode, neighbor, "green", ctx);
+                    }
+                });
+                bfsAnimation(queue, currentNode);
+            }, 500);
+        }
+
+        function dfsTraversal() {
+
+            document.getElementById('bfsButton').disabled = true;
+            document.getElementById('showBFSTreeButton').disabled = true;
+            document.getElementById('showDFSTreeButton').disabled = true;
+            document.getElementById('generateButton').disabled = true;
+            document.getElementById('clearButton').disabled = true;
+            document.getElementById("statusLabel").innerText = "DFS Traversal going on...";
+
+            var numNodes = Object.keys(graph).length;
+            visited.clear();
+            dfsTree = {};
+            for (var node in graph) {
+                if (!visited.has(parseInt(node))) {
+                    dfsAnimation([parseInt(node)], -1);
+                    break;
+                }
+            }
+        }
+
+        function dfsAnimation(stack, parent) {
+            if (stack.length === 0) {
+                document.getElementById("statusLabel").innerText = "DFS Traversal Completed";
+                document.getElementById('bfsButton').disabled = false;
+                updateAdjacencyList();
+
+                document.getElementById('showDFSTreeButton').disabled = false;
+                document.getElementById('clearButton').disabled = false;
+                buildDFSTree();
+                removeUnconnectedEdges(dfsTree);
+                return;
+            }
+
+            var currentNode = stack.pop();
+            visited.add(currentNode);
+            if (parent !== -1) {
+                if (!dfsTree[parent]) {
+                    dfsTree[parent] = [];
+                }
+                dfsTree[parent].push(currentNode);
+            }
+            drawNode(currentNode, "purple", ctx);
+            setTimeout(function () {
+                graph[currentNode].neighbors.forEach(function (neighbor) {
+                    if (!visited.has(neighbor)) {
+                        stack.push(neighbor);
+                        drawEdge(currentNode, neighbor, "green", ctx);
+                    }
+                });
+                dfsAnimation(stack, currentNode);
+            }, 500);
+        }
+
+        function updateAdjacencyList() {
+            adjacencyListDiv.innerHTML = "";
+            var listHTML = "<ul>";
+            for (var node in graph) {
+                listHTML += "<li>" + node + ": ";
+                listHTML += graph[node].neighbors.join(", ") + "</li>";
+            }
+            listHTML += "</ul>";
+            adjacencyListDiv.innerHTML = listHTML;
+        }
+
+
+        function displayBFSTree() {
+            bfsTreeCanvas.width = 700;
+            bfsTreeCanvas.height = 800;
+            bfsCtx.clearRect(0, 0, bfsTreeCanvas.width, bfsTreeCanvas.height);
+            drawTree(bfsTree, bfsCtx, bfsTreeCanvas.width, bfsTreeCanvas.height);
+
+            // Scroll to the BFS tree canvas
+            bfsTreeCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            document.getElementById('generateButton').disabled = false;
+        }
+
+        function displayDFSTree() {
+            dfsTreeCanvas.width = 700;
+            dfsTreeCanvas.height = 800;
+            dfsCtx.clearRect(0, 0, dfsTreeCanvas.width, dfsTreeCanvas.height);
+            drawTree(dfsTree, dfsCtx, dfsTreeCanvas.width, dfsTreeCanvas.height);
+
+
+            dfsTreeCanvas.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            document.getElementById('generateButton').disabled = false;
+        }
+
+
+        function drawNode(node, color, context) {
+            context.beginPath();
+            context.arc(graph[node].x, graph[node].y, 15, 0, 2 * Math.PI);
+            context.fillStyle = color;
+            context.fill();
+
+            // Increase the font size for the node number
+            var fontSize = 18; // Adjust the font size as needed
+            context.font = fontSize + "px Arial"; // Set the font size and type
+            context.fillStyle = "white";
+            var textWidth = context.measureText(node).width;
+            context.fillText(node, graph[node].x - textWidth / 2, graph[node].y + fontSize / 2); // Center the text horizontally and vertically
+            context.closePath();
+        }
+
+        function drawEdge(startNode, endNode, color, context) {
+            var startX = graph[startNode].x;
+            var startY = graph[startNode].y;
+            var endX = graph[endNode].x;
+            var endY = graph[endNode].y;
+            var midX = (startX + endX) / 2;
+            var midY = (startY + endY) / 2;
+
+            var deltaX = endX - startX;
+            var deltaY = endY - startY;
+            var angle = Math.atan2(deltaY, deltaX);
+
+            // Offset the start and end points to avoid overlapping nodes
+            var radius = 15; // Node radius
+            startX = startX + radius * Math.cos(angle);
+            startY = startY + radius * Math.sin(angle);
+            endX = endX - radius * Math.cos(angle);
+            endY = endY - radius * Math.sin(angle);
+
+            context.beginPath();
+            context.moveTo(startX, startY);
+            context.quadraticCurveTo(midX, midY, endX, endY);
+            context.strokeStyle = color;
+            context.stroke();
+            context.closePath();
+        }
+
+        function buildBFSTree() {
+            visited.clear();
+            var queue = [[0, null]]; // Start from node 0 with no parent
+            while (queue.length > 0) {
+                var [nodeId, parent] = queue.shift();
+                visited.add(nodeId);
+                if (parent !== null && visited.has(parent)) {
+                    if (!bfsTree[parent]) {
+                        bfsTree[parent] = [];
+                    }
+                    if (bfsTree[parent].length === 0) { // Ensure parent has only one child
+                        bfsTree[parent].push(nodeId);
+                    }
+                }
+                graph[nodeId].neighbors.forEach(function (neighbor) {
+                    if (!visited.has(neighbor)) {
+                        queue.push([neighbor, nodeId]);
+                    }
+                });
+            }
+        }
+
+        function buildDFSTree() {
+            visited.clear();
+            function dfs(node, parent) {
+                visited.add(node);
+                if (parent !== null && visited.has(parent)) {
+                    if (!dfsTree[parent]) {
+                        dfsTree[parent] = [];
+                    }
+                    if (dfsTree[parent].length === 0) { // Ensure parent has only one child
+                        dfsTree[parent].push(node);
+                    }
+                }
+                graph[node].neighbors.forEach(function (neighbor) {
+                    if (!visited.has(neighbor)) {
+                        dfs(neighbor, node);
+                    }
+                });
+            }
+            dfs(0, null); // Start DFS from node 0 with no parent
+        }
+
+
+        function drawTree(tree, context, canvasWidth, canvasHeight) {
+            var radius = 15;
+            var horizontalGap = 50;
+            var verticalGap = 60;
+
+            var drawnNodes = new Set();
+
+            // Function to draw edges between nodes
+            function drawEdges(node, x, y, parentX, parentY) {
+                if (parentX !== null && parentY !== null) {
+                    // Calculate direction vector
+                    var dx = x - parentX;
+                    var dy = y - parentY;
+                    var distance = Math.sqrt(dx * dx + dy * dy);
+
+                    // Normalize direction vector
+                    var nx = dx / distance;
+                    var ny = dy / distance;
+
+                    // Calculate start and end points
+                    var startOffsetX = nx * radius; // Offset by node radius
+                    var startOffsetY = ny * radius;
+                    var endOffsetX = -nx * radius; // Offset by node radius
+                    var endOffsetY = -ny * radius;
+
+                    context.beginPath();
+                    context.moveTo(parentX + startOffsetX, parentY + startOffsetY);
+                    context.lineTo(x + endOffsetX, y + endOffsetY);
+                    context.strokeStyle = "black";
+                    context.stroke();
+                    context.closePath();
+                }
+            }
+
+            // Function to draw nodes
+            function drawTreeNode(node, x, y, parentX, parentY) {
+                if (drawnNodes.has(node)) {
+                    return;
+                }
+                drawnNodes.add(node);
+
+                // Draw edges first
+                drawEdges(node, x, y, parentX, parentY);
+
+                // Draw node
+                context.beginPath();
+                context.arc(x, y, radius, 0, 2 * Math.PI);
+                context.fillStyle = "#13547a";
+                context.fill();
+                context.fillStyle = "white";
+                context.font = "18px Arial";
+                context.fillText(node, x - 5, y + 4);
+                context.closePath();
+
+                if (tree[node]) {
+                    var childX = x - (horizontalGap * (tree[node].length - 1)) / 2; // Center children horizontally
+                    var childY = y + verticalGap;
+
+                    tree[node].forEach(function (child) {
+                        drawTreeNode(child, childX, childY, x, y);
+                        childX += horizontalGap;
+                    });
+                }
+            }
+
+            drawTreeNode(0, canvasWidth / 2, radius * 3, null, null); // Start drawing from the root node (assuming it's node 0)
+        }
+
+    </script>
+</body>
+
+</html>

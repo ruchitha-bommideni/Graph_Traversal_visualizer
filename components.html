@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Componets</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="css/templatemo-topic-listing.css" rel="stylesheet">
+    <!--
+
+TemplateMo 590 topic listing
+
+https://templatemo.com/tm-590-topic-listing
+
+-->
+</head>
+
+<body id="top">
+
+    <main>
+
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    <img src="images\logo.png" alt="" height="100px" width="100px">
+                    <span>Graphify</span>
+                </a>
+
+                <div class="d-lg-none ms-auto me-4">
+                    <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="index.html#section_1">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="index.html#section_2">Browse Topics</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="index.html#section_3">How it works</a>
+                        </li>
+
+
+
+                    </ul>
+
+                    <div class="d-none d-lg-block">
+                        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <header class="site-header d-flex flex-column justify-content-center align-items-center">
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+
+                    <div class="col-lg-5 col-12 mb-5">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Homepage</a></li>
+
+                                <li class="breadcrumb-item active" aria-current="page">COMPONENTS/USES </li>
+                            </ol>
+                        </nav>
+
+                        <h2 class="text-white">Components and Uses of Graphs </h2>
+
+                        <div class="d-flex align-items-center mt-5">
+                            <a href="#topics-detail" class="btn custom-btn custom-border-btn smoothscroll me-4">Read
+                                More</a>
+
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-12">
+                        <div class="topics-detail-block bg-white shadow-lg">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0PiSoCeEHVbWHb0-I0by2jfW4D09I4DVZfw&s"
+                                class="topics-detail-block-image img-fluid">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+
+        <section class="topics-detail-section section-padding" id="topics-detail">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-8 col-12 m-auto">
+                        <h3 class="mb-4">Components:</h3>
+
+                        <p><strong>1. Vertices (Nodes):</strong>
+                        <ul>
+                            <li>
+                                Definition: Fundamental units of a graph, representing entities.
+                            </li>
+                            <li>Representation: Usually denoted as V. Each vertex can have a label (in labeled graphs)
+                                or be anonymous (in unlabeled graphs).</li>
+                        </ul>
+                        </p>
+                        <p><strong>2.Edges (Links/Arcs):</strong>
+                        <ul>
+                            <li>
+                                Definition: Connections between pairs of vertices
+                            </li>
+                            <li>Representation: Usually denoted as E. Each edge can be directed or undirected, and may
+                                carry a weight in weighted graphs.</li>
+                        </ul>
+                        </p>
+                        <p><strong>3.Adjacency:</strong>
+                        <ul>
+                            <li>
+                                Definition: Relationship between vertices connected by an edge.
+                            </li>
+                            <li>Representation: Can be depicted using adjacency lists, adjacency matrices, or incidence
+                                matrices.</li>
+                        </ul>
+                        </p>
+                        <p><strong>4.Degree:</strong>
+                        <ul>
+                            <li>
+                                The number of edges connected to a vertex.
+                            </li>
+
+                        </ul>
+                        </p>
+
+                        <p><strong>5. Paths:</strong>
+                        <ul>
+                            <li>
+                                A sequence of vertices connected by edges.
+                            </li>
+
+                        </ul>
+                        </p>
+                        <p><strong>6. Connected Components:</strong>
+                        <ul>
+                            <li>
+                                Subsets of vertices such that there is a path between any two vertices in the subset.
+                            </li>
+                            <li>Types:
+                                <ul type="solid">
+                                    <li>Strongly Connected Component (in Directed Graphs): Every vertex is reachable
+                                        from every other vertex.</li>
+                                    <li>Weakly Connected Component: Ignoring edge directions, every vertex is reachable
+                                        from every other vertex.</li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                        </p>
+                        <p><strong>7.Subgraphs:</strong>
+                        <ul>
+                            <li>
+                                A subset of a graph’s vertices and edges that forms a graph.
+                            </li>
+
+                        </ul>
+                        </p>
+                        <br>
+
+
+                        <h3 class="mb-4">Uses of Graphs:</h3>
+                        <p><strong>1.Computer Science:</strong>
+                        <ul>
+                            <li>
+                                Network Design: Routing, network topology, internet structure.
+                            </li>
+                            <li>Data Organization: Representing file systems, databases (ER diagrams).</li>
+
+                        </ul>
+                        </p>
+                        <p><strong>2.Social Networks:</strong>
+                            <ul>
+                                <li>
+                                    Modeling Relationships: Friendships, followers, connections.
+                                </li>
+                                <li>Community Detection: Identifying groups of closely connected users.</li>
+    
+                            </ul>
+                            </p>
+                            <p><strong>3.Transportation and Logistics:</strong>
+                                <ul>
+                                    <li>
+                                        Route Planning: Finding shortest paths, optimal routes.
+                                    </li>
+                                    <li>Traffic Flow: Modeling and optimizing traffic systems.</li>
+        
+                                </ul>
+                                </p>
+                                <p><strong>4.Biology and Chemistry:</strong>
+                                    <ul>
+                                        <li>
+                                            Gene Regulation Networks: Understanding gene interactions.
+                                        </li>
+                                        <li>Protein-Protein Interaction Networks: Studying interactions between proteins.</li>
+            
+                                    </ul>
+                                    </p>
+                                    <p><strong>5.Engineering:</strong>
+                                        <ul>
+                                            <li>
+                                                Circuit Design: Representing electrical circuits.
+                                            </li>
+                                            <li>Structural Analysis: Analyzing forces and stresses in structures.</li>
+                
+                                        </ul>
+                                        </p>
+
+    
+
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+
+
+    <!-- JAVASCRIPT FILES -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/custom.js"></script>
+
+</body>
+
+</html>

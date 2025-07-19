@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Adjacency Matrix</title>
+
+        <!-- CSS FILES -->        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans&display=swap" rel="stylesheet">
+                        
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+        <link href="css/templatemo-topic-listing.css" rel="stylesheet">
+<!--
+
+TemplateMo 590 topic listing
+
+https://templatemo.com/tm-590-topic-listing
+
+-->
+    </head>
+    
+    <body id="top">
+
+        <main>
+
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="images\logo.png" alt="" height="100px" width="100px">
+                        <span>Graphify</span>
+                    </a>
+
+                    <div class="d-lg-none ms-auto me-4">
+                        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                    </div>
+    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+    
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-lg-5 me-lg-auto">
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="index.html#section_1">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="index.html#section_2">Browse Topics</a>
+                            </li>
+    
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="index.html#section_3">How it works</a>
+                            </li>
+
+
+              
+                        </ul>
+
+                        <div class="d-none d-lg-block">
+                            <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+
+            <header class="site-header d-flex flex-column justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center">
+
+                        <div class="col-lg-5 col-12 mb-5">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Homepage</a></li>
+
+                                    <li class="breadcrumb-item active" aria-current="page">ADJACENCY MATRIX </li>
+                                </ol>
+                            </nav>
+
+                            <h2 class="text-white">Adjacency Matrix </h2>
+
+                            <div class="d-flex align-items-center mt-5">
+                                <a href="#topics-detail" class="btn custom-btn custom-border-btn smoothscroll me-4">Read More</a>
+
+                                
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5 col-12">
+                            <div class="topics-detail-block bg-white shadow-lg">
+                                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20240424142538/Adjacency-Matrix.webp" class="topics-detail-block-image img-fluid">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </header>
+
+
+            <section class="topics-detail-section section-padding" id="topics-detail">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-8 col-12 m-auto">
+                            <h3 class="mb-4">Definition:</h3>
+                            <p>An adjacency matrix is a square matrix used to represent a finite graph. The elements of the matrix indicate whether pairs of vertices are adjacent or not in the graph.</p>
+
+                            <p><h3 class="mb-4">Contruction:</h3>
+                                <ul>
+                                    <li>
+                                        Vertices: Assume a graph G has n vertices.
+                                    </li>
+                                    <li>Matrix: The adjacency matrix A will be a n×n matrix 
+                                        <ul>
+                                            <li>A[i][j]=1 if there is an edge from vertex i to vertex j.</li>
+                                            <li>A[i][j]=0 if there is no edge from vertex i to vertex j.</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </p>
+                            <h3 class="mb-4">Types of Graphs and Adjacency Matrices:</h3>
+                            <p><strong>1.Undirected Graph:</strong>
+                                <ul>
+                                    <li>
+                                        The adjacency matrix is symmetric.
+                                    </li>
+                                    <li>A[i][j]=A[j][i]</li>
+                                    <li> Example: <br> &nbsp;&nbsp;&nbsp;A B C <br>
+                                        A 0 1 1
+                                        <br>
+                                        B 1 0 0 <br>
+                                        C 1 0 0
+                                        </li>
+                                   
+                                </ul>
+                            </p>
+                            <p><strong>2.Directed Graph:</strong>
+                                <ul>
+                                    <li>
+                                        The adjacency matrix is not necessarily symmetric.
+                                    </li>
+                                    <li>Example: <br>
+                                        &nbsp;&nbsp;&nbsp; A B C
+                                        <br>
+                                        A 0 1 1 <br>
+                                        B 0 0 0 <br>
+                                        C 1 0 0
+                                        </li>
+                                </ul>
+                            </p>
+                            <p><strong>3.Weighted Graph:</strong>
+                                <ul>
+                                    <li>
+                                        Instead of 1s and 0s, the matrix contains the weights of the edges.
+                                    </li>
+                                    <li>A[i][j]=w (weight of the edge) if there is an edge from i to j, otherwise 0 (or some other indication of no edge, such as infinity for algorithms like Dijkstra’s).</li>
+                                    <li>Example: <br>
+                                        &nbsp;&nbsp;&nbsp; A B C
+                                        <br>
+                                        A 0 2 3 <br>
+                                        B 0 0 0 <br>
+                                        C 1 0 0</li>
+                                </ul>
+                            </p>
+                            
+                            <p><strong>4.Unweighted Graph:</strong>
+                                <ul>
+                                    <li>
+                                        The adjacency matrix contains only 1s and 0s.
+                                    </li>
+                                    <li>
+                                        Example: <br>
+                                        &nbsp;&nbsp;&nbsp; A B C
+                                        <br>
+                                        A 0 1 1 <br>
+                                        B 1 0 0 <br>
+                                        C 1 0 0</li>
+                                    </li>
+                                    
+                                </ul>
+                                <h3 class="mb-4">Pros and Cons of Adjacency Matrix:</h3>
+                                <p>
+                                    <strong>Pros</strong>
+                                    <ul>
+                                        <li>Simple and Easy to Understand: Provides a clear visual representation of the graph.</li>
+                                        <li>Efficient Edge Lookup: Checking for the existence of an edge between two vertices is O(1).</li>
+                                        <li>Memory Efficiency for Dense Graphs: Efficient for graphs where the number of edges is close to the number of possible edges, n^2.</li>
+                                    </ul>
+                                </p>
+                                <p>
+                                    <strong>Cons</strong>
+                                    <ul>
+                                        <li>Memory Inefficiency for Sparse Graphs: Requires O(n^2) space, which can be inefficient for graphs with few edges relative to the number of vertices.</li>
+                                        <li>Edge Iteration Inefficiency: Iterating over all edges is O(n^2) which is inefficient for sparse graphs.</li>
+                                    </ul>
+                                </p>
+                            
+                 
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+        </main>
+		
+        
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/custom.js"></script>
+
+    </body>
+</html>
